@@ -80,10 +80,6 @@ Render Free peut mettre l'application en veille après 15 minutes d'inactivité 
 | `requirements-dev.txt` | Dépendances des tests |
 | `DEMARRER_WINDOWS.bat` | Démarrage simplifié |
 
-## 5. Présentation devant le professeur
-
-> J'ai développé une application Python/Streamlit qui illustre la Self-Attention. Avec GitHub Actions, j'ai défini un workflow qui lance automatiquement les tests à chaque push. Après la réussite des tests sur la branche `main`, le workflow déclenche le déploiement de l'application sur Render à l'aide d'un Deploy Hook enregistré dans GitHub Secrets. Cela me permet de contrôler explicitement la CI et la CD.
-
 ### Références officielles
 
 - https://docs.github.com/en/actions
