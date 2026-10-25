@@ -1,0 +1,7 @@
+VERSION RENDER — octobre 2026
+
+Projet initial réutilisé sans changer la logique de Self-Attention.
+Workflow GitHub Actions adapté au déclenchement de déploiement via Render Deploy Hook.
+Les tests peuvent être exécutés avec python -m pytest -q.
+Aucune connexion à un compte GitHub/Render ni aucun déploiement réel n'a été réalisé ici.
+Le job GitHub Actions déclenche une demande de déploiement ; pour confirmer que le service fonctionne, vérifier l'état du déploiement dans le dashboard Render.

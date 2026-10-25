@@ -1,0 +1,55 @@
+name: Transformer Lab - CI/CD Render
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: CI - Tests Python
+    runs-on: ubuntu-latest
+    steps:
+      - name: Recuperer le code
+        uses: actions/checkout@v4
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Installer les dependances
+        run: python -m pip install -r requirements-dev.txt
+      - name: Tests automatises
+        run: python -m pytest -q
+      - name: Verifier la syntaxe Python
+        run: python -m compileall -q app.py attention_core.py
+
+  deploy:
+    name: CD - Declencher Render
+    needs: tests
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+    steps:
+      - name: Verifier la configuration Render
+        id: config
+        shell: bash
+        run: |
+          if [[ -n "$RENDER_DEPLOY_HOOK_URL" ]]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Deploiement ignore : configurez le secret RENDER_DEPLOY_HOOK_URL."
+          fi
+      - name: Declencher le deploiement Render apres la CI
+        if: steps.config.outputs.ready == 'true'
+        shell: bash
+        run: |
+          curl --fail --silent --show-error --retry 3 --request POST "$RENDER_DEPLOY_HOOK_URL" > /dev/null
+          echo "Render a accepte la demande de deploiement. Verifier le resultat final dans le dashboard Render."
