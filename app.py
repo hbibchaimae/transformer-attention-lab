@@ -31,7 +31,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown('<div class="eyebrow">Deep Learning · Démonstration pédagogique</div>', unsafe_allow_html=True)
-st.title("Attention Lab")
+st.title("Attention Lab — Interactive Demo")
 st.write("Explorez le mécanisme de **Self-Attention** qui se trouve au cœur des Transformers.")
 st.info("**Important :** cette application effectue de vrais calculs de matrices, mais ses embeddings et poids sont **synthétiques**. Ce n'est ni GPT ni un Transformer pré-entraîné ; elle sert à visualiser le fonctionnement mathématique.")
 
@@ -119,12 +119,12 @@ with cicd_tab:
 
     **CI — Continuous Integration** : à chaque push, installer les dépendances et lancer les tests.
 
-    **CD — Continuous Deployment** : si les tests réussissent sur la branche principale, déployer l'application vers Railway.
+    **CD — Continuous Deployment** : après la réussite des tests sur main, GitHub Actions met à jour la branche production, utilisée par Streamlit Community Cloud.
     """)
-    st.code("Local → git push → GitHub Actions → pytest → Railway → URL publique", language="text")
+    st.code("Local → GitHub (main) → GitHub Actions → pytest → production → Streamlit Cloud", language="text")
     st.write("Le fichier de configuration est :")
     st.code(".github/workflows/ci-cd.yml", language="text")
-    st.warning("Le déploiement nécessite de configurer les identifiants du projet Railway dans GitHub Secrets et Variables. Aucun identifiant secret ne doit être ajouté au code.")
+    st.success("Le déploiement est automatisé : seules les modifications validées par les tests sont transférées vers la branche production.")
 
 st.divider()
 st.caption("Attention Lab · Projet de démonstration Master IA · Les résultats ne représentent pas des connaissances linguistiques apprises.")
